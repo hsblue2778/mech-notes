@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { withBase } from '../../lib/site';
+
+// 관마찰손실 계산기는 별도 React 앱(Calculator_Mechanical-Engineering)으로
+// 만들어 GitHub Pages에 독립 배포되어 있다. 여기서는 그 배포본을 새 탭으로 연결한다.
+const CALC_APP_URL = 'https://hsblue2778.github.io/Calculator_Mechanical-Engineering/';
 ---
 
 <BaseLayout title="관마찰손실 계산기" description="Darcy-Weisbach 식 기반 배관 마찰손실 계산기">
@@ -8,19 +12,25 @@ import { withBase } from '../../lib/site';
     <header class="page-head">
       <div class="meta-row" style="margin-bottom: 10px;">
         <span class="chip chip-blue">계산기</span>
-        <span class="chip">준비 중</span>
+        <span class="chip">사용 가능</span>
       </div>
       <h1>관마찰손실 계산기</h1>
       <p class="lede">Darcy-Weisbach 식 기반 배관 마찰손실(압력손실) 계산</p>
     </header>
 
-    <div class="placeholder">
-      <p><strong>여기에 기존 계산기 코드가 들어갈 예정입니다.</strong></p>
+    <section class="calc-launch">
       <p>
-        기존 계산기 저장소의 코드를 이 페이지(<code>src/pages/tools/friction-loss.astro</code>)로
-        옮기면 됩니다. 입력 폼 + 계산 스크립트를 이 자리에 그대로 붙여 넣는 구조입니다.
+        이 계산기는 별도의 기계설비 설계 도구 앱으로 제공됩니다. 유체·온도, 배관 재질·상태,
+        유량·유속·관경 중 2개와 길이를 입력하면 나머지 값과 레이놀즈 수, 마찰계수,
+        Darcy-Weisbach·Hazen-Williams 손실을 함께 계산합니다.
       </p>
-    </div>
+      <a class="calc-cta" href={CALC_APP_URL} target="_blank" rel="noopener noreferrer">
+        계산기 열기 →
+      </a>
+      <p class="calc-note">
+        새 탭에서 도구 앱이 열립니다. 계산기 목록에서 <strong>관마찰손실계산기</strong> 카드를 선택하세요.
+      </p>
+    </section>
 
     <aside class="related">
       <section>
@@ -30,8 +40,55 @@ import { withBase } from '../../lib/site';
             관마찰손실
             <span class="sub">Darcy-Weisbach 식과 Reynolds 수</span>
           </a>
+          <a class="related-pill" href={withBase('/concepts/friction-factor-roughness/')}>
+            마찰계수 f와 조도
+            <span class="sub">Moody · Colebrook · Swamee-Jain</span>
+          </a>
+          <a class="related-pill" href={withBase('/concepts/reynolds-number/')}>
+            레이놀즈 수
+            <span class="sub">층류 · 난류 판정</span>
+          </a>
+          <a class="related-pill" href={withBase('/concepts/recommended-flow-velocity/')}>
+            배관 권장 유속 기준
+            <span class="sub">경제유속으로 관경 결정</span>
+          </a>
         </div>
       </section>
     </aside>
   </div>
 </BaseLayout>
+
+<style>
+  .calc-launch {
+    border: 1px solid var(--blue-line);
+    background: var(--blue-bg);
+    border-radius: 12px;
+    padding: 24px 26px;
+    margin: 8px 0 4px;
+  }
+  .calc-launch > p {
+    margin: 0 0 18px;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--text, #1f2937);
+  }
+  .calc-cta {
+    display: inline-block;
+    padding: 11px 22px;
+    background: var(--blue);
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .calc-cta:hover {
+    background: var(--blue-dark);
+  }
+  .calc-note {
+    margin: 16px 0 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+</style>

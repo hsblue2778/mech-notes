@@ -19,7 +19,7 @@ export const tools: Tool[] = [
     title: '관마찰손실 계산기',
     summary: 'Darcy-Weisbach 식 기반 배관 마찰손실(압력손실) 계산',
     href: '/tools/friction-loss',
-    status: '준비 중',
+    status: '사용 가능',
     tags: ['배관설계'],
   },
 ];
