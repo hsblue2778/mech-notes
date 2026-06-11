@@ -5,9 +5,8 @@ import rehypeKatex from 'rehype-katex';
 import { rehypeBaseLinks } from './plugins/rehype-base-links.mjs';
 
 // ── GitHub Pages 배포 설정 ──────────────────────────────────────
-// TODO: 'YOUR-GITHUB-USERNAME'을 본인 GitHub 사용자명으로 바꾸세요.
 // 저장소 이름을 mech-notes가 아닌 다른 이름으로 만들면 BASE도 같이 바꾸세요.
-const SITE = 'https://YOUR-GITHUB-USERNAME.github.io';
+const SITE = 'https://hsblue2778.github.io';
 const BASE = '/mech-notes';
 
 export default defineConfig({
