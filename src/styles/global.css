@@ -1,0 +1,547 @@
+/* ── 기계설비 노트 전역 스타일 ─────────────────────────────
+   흰 배경, 카드 기반, 파란 포인트 컬러, 절제된 실무 도구 느낌 */
+
+:root {
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --blue-bg: #eff6ff;
+  --blue-line: #bfdbfe;
+  --ink: #111827;
+  --body: #374151;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --bg: #ffffff;
+  --bg-soft: #f9fafb;
+  --radius: 12px;
+  --font:
+    'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, 'Segoe UI', 'Malgun Gothic', sans-serif;
+  --mono: ui-monospace, 'Cascadia Code', Consolas, 'D2Coding', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--body);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  word-break: keep-all;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ── 헤더 ── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 56px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.brand:hover {
+  text-decoration: none;
+  color: var(--blue);
+}
+.logo-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 4px;
+  background: var(--blue);
+  flex: none;
+}
+.site-nav {
+  display: flex;
+  gap: 2px;
+}
+.nav-link {
+  padding: 6px 11px;
+  border-radius: 8px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.nav-link:hover {
+  color: var(--blue);
+  background: var(--blue-bg);
+  text-decoration: none;
+}
+.nav-link.active {
+  color: var(--blue-dark);
+  background: var(--blue-bg);
+  font-weight: 600;
+}
+
+main.container {
+  padding-top: 32px;
+  padding-bottom: 72px;
+  min-height: calc(100vh - 220px);
+}
+
+/* ── 푸터 ── */
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 26px 0 44px;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.site-footer p {
+  margin: 4px 0;
+}
+.site-footer a {
+  color: var(--muted);
+  text-decoration: underline;
+}
+.site-footer a:hover {
+  color: var(--blue);
+}
+
+/* ── 홈 히어로 ── */
+.hero {
+  padding: 30px 0 34px;
+}
+.hero h1 {
+  margin: 0 0 6px;
+  font-size: 1.75rem;
+  color: var(--ink);
+}
+.hero p {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+/* ── 섹션 ── */
+.section {
+  margin-bottom: 46px;
+}
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.section-head h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 1.22rem;
+  color: var(--ink);
+}
+.section-head h2::before {
+  content: '';
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+  background: var(--blue);
+}
+.more-link {
+  font-size: 13.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.more-link:hover {
+  color: var(--blue);
+}
+
+/* ── 카드 ── */
+.grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+}
+.card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  padding: 18px;
+  color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.card:hover {
+  border-color: var(--blue);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.09);
+  text-decoration: none;
+}
+.card h3 {
+  margin: 0.5em 0 0.3em;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.card > p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.note-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.tool-go {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue);
+}
+
+/* ── 칩(태그/배지) ── */
+.chip {
+  display: inline-block;
+  padding: 2px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-soft);
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.chip-blue {
+  background: var(--blue-bg);
+  border-color: var(--blue-line);
+  color: var(--blue-dark);
+  font-weight: 600;
+}
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 11px;
+}
+
+/* ── 목록/본문 페이지 머리 ── */
+.page-head {
+  margin: 6px 0 30px;
+}
+.page-head h1 {
+  margin: 0 0 6px;
+  font-size: 1.6rem;
+  color: var(--ink);
+}
+.page-head .lede,
+.note-header .lede {
+  margin: 0;
+  color: var(--muted);
+}
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.raw-link {
+  margin-left: auto;
+  padding: 2px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.raw-link:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  text-decoration: none;
+}
+
+/* ── 노트 본문 머리 ── */
+.note-header {
+  margin-bottom: 28px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+.note-header .note-title {
+  margin: 14px 0 8px;
+  font-size: 1.85rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+/* ── 태그 필터 ── */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 28px;
+}
+.filter-btn {
+  padding: 5px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  font-family: inherit;
+  font-size: 13.5px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.filter-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.filter-btn[aria-pressed='true'] {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ── 관련 링크 ── */
+.related {
+  display: grid;
+  gap: 22px;
+  margin-top: 48px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+.related h2 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.related-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.related-pill {
+  display: inline-block;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--bg);
+}
+.related-pill:hover {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+  text-decoration: none;
+}
+.related-pill .sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* ── 마크다운 본문(prose) ── */
+.prose {
+  font-size: 16.5px;
+}
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--ink);
+  line-height: 1.35;
+}
+.prose h2 {
+  margin-top: 2.1em;
+  margin-bottom: 0.7em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--line);
+  font-size: 1.38rem;
+}
+.prose h3 {
+  margin-top: 1.7em;
+  font-size: 1.12rem;
+}
+.prose p {
+  margin: 0.9em 0;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+.prose li {
+  margin: 0.3em 0;
+}
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 2.2em 0;
+}
+.prose blockquote {
+  margin: 1.2em 0;
+  padding: 0.55em 1.1em;
+  border-left: 3px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+  background: var(--blue-bg);
+  color: #44546b;
+}
+.prose blockquote p {
+  margin: 0.35em 0;
+}
+.prose img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+/* 표 */
+.prose table {
+  width: 100%;
+  margin: 1.3em 0;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.prose th {
+  background: var(--bg-soft);
+  font-weight: 600;
+  color: var(--ink);
+  text-align: left;
+}
+.prose th,
+.prose td {
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+}
+.prose tr:hover td {
+  background: #fafcff;
+}
+
+/* 코드 */
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 0.12em 0.38em;
+}
+.prose pre {
+  margin: 1.2em 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* KaTeX 수식 */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.4em 0;
+}
+
+/* ── 검색(Pagefind UI) ── */
+.search-wrap {
+  max-width: 660px;
+  --pagefind-ui-scale: 0.92;
+  --pagefind-ui-primary: var(--blue);
+  --pagefind-ui-text: var(--ink);
+  --pagefind-ui-background: var(--bg);
+  --pagefind-ui-border: var(--line);
+  --pagefind-ui-tag: var(--bg-soft);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 12px;
+  --pagefind-ui-font: var(--font);
+}
+.search-dev-note {
+  margin: 0;
+  padding: 11px 14px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  background: var(--bg-soft);
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+/* ── 플레이스홀더(계산기 예정 자리) ── */
+.placeholder {
+  border: 1.5px dashed var(--blue-line);
+  border-radius: var(--radius);
+  background: var(--blue-bg);
+  padding: 26px 24px;
+  color: #44546b;
+}
+.placeholder strong {
+  color: var(--blue-dark);
+}
+.placeholder p {
+  margin: 0.4em 0;
+}
+
+/* ── 반응형 ── */
+@media (max-width: 600px) {
+  .container {
+    padding: 0 16px;
+  }
+  .brand .brand-text {
+    font-size: 15.5px;
+  }
+  .nav-link {
+    padding: 6px 8px;
+    font-size: 13.5px;
+  }
+  .hero h1 {
+    font-size: 1.45rem;
+  }
+  .note-header .note-title {
+    font-size: 1.5rem;
+  }
+}

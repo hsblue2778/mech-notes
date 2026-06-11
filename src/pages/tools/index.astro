@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { withBase } from '../../lib/site';
+import { tools } from '../../data/tools';
+---
+
+<BaseLayout title="계산기" description="직접 만든 기계설비 계산기 모음">
+  <header class="page-head">
+    <h1>계산기</h1>
+    <p class="lede">실무 검토용으로 직접 만든 계산기 모음 — 총 {tools.length}개</p>
+  </header>
+
+  <div class="grid">
+    {
+      tools.map((t) => (
+        <ToolCard
+          href={withBase(`${t.href}/`)}
+          title={t.title}
+          summary={t.summary}
+          status={t.status}
+        />
+      ))
+    }
+  </div>
+
+  <p style="margin-top: 28px; font-size: 13.5px; color: var(--muted);">
+    새 계산기는 <code>src/pages/tools/</code>에 페이지를 만들고
+    <code>src/data/tools.ts</code>에 등록하면 목록에 자동 반영됩니다.
+  </p>
+</BaseLayout>

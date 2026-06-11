@@ -1,0 +1,81 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoteCard from '../../components/NoteCard.astro';
+import { withBase, byUpdatedDesc } from '../../lib/site';
+
+const entries = (await getCollection('concepts')).sort(byUpdatedDesc);
+const categories = [...new Set(entries.map((e) => e.data.category))];
+const allTags = [...new Set(entries.flatMap((e) => e.data.tags))].sort((a, b) =>
+  a.localeCompare(b, 'ko')
+);
+---
+
+<BaseLayout title="개념 노트" description="기계설비 개념 노트 목록 — 카테고리별 정리, 태그 필터">
+  <header class="page-head">
+    <h1>개념 노트</h1>
+    <p class="lede">회사에서 배운 개념을 카테고리별로 정리 — 총 {entries.length}개</p>
+  </header>
+
+  {
+    allTags.length > 0 && (
+      <div class="filter-bar" id="tag-filter" role="group" aria-label="태그 필터">
+        <button class="filter-btn" data-tag="__all" aria-pressed="true">
+          전체
+        </button>
+        {allTags.map((t) => (
+          <button class="filter-btn" data-tag={t} aria-pressed="false">
+            #{t}
+          </button>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    categories.map((cat) => (
+      <section class="section" data-category-group>
+        <div class="section-head">
+          <h2>{cat}</h2>
+        </div>
+        <div class="grid">
+          {entries
+            .filter((e) => e.data.category === cat)
+            .map((e) => (
+              <NoteCard
+                href={withBase(`/concepts/${e.id}/`)}
+                title={e.data.title}
+                summary={e.data.summary}
+                date={e.data.updated}
+                tags={e.data.tags}
+                dataTags={e.data.tags.join('|')}
+              />
+            ))}
+        </div>
+      </section>
+    ))
+  }
+
+  <script>
+    const buttons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('#tag-filter .filter-btn')
+    );
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-tags]'));
+    const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-category-group]'));
+
+    for (const btn of buttons) {
+      btn.addEventListener('click', () => {
+        const tag = btn.dataset.tag ?? '__all';
+        for (const b of buttons) b.setAttribute('aria-pressed', String(b === btn));
+        for (const card of cards) {
+          const tags = (card.dataset.tags ?? '').split('|');
+          card.toggleAttribute('hidden', tag !== '__all' && !tags.includes(tag));
+        }
+        // 카테고리 안의 카드가 모두 숨겨지면 그룹도 숨김
+        for (const g of groups) {
+          g.toggleAttribute('hidden', !g.querySelector('[data-tags]:not([hidden])'));
+        }
+      });
+    }
+  </script>
+</BaseLayout>

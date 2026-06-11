@@ -1,0 +1,67 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RelatedLinks from '../../components/RelatedLinks.astro';
+import { withBase, formatDate } from '../../lib/site';
+import { tools as toolRegistry } from '../../data/tools';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('concepts');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+// 관련 개념: slug → 실제 노트로 해석 (없는 slug는 조용히 건너뜀)
+const all = await getCollection('concepts');
+const relatedConcepts = entry.data.relatedConcepts.flatMap((slug) => {
+  const found = all.find((e) => e.id === slug);
+  return found
+    ? [{ title: found.data.title, href: withBase(`/concepts/${found.id}/`), sub: found.data.summary }]
+    : [];
+});
+
+// 관련 계산기: 경로 → tools 레지스트리에서 제목/설명 보강
+const relatedTools = entry.data.relatedTools.map((path) => {
+  const tool = toolRegistry.find((t) => t.href === path);
+  return {
+    title: tool?.title ?? path,
+    href: withBase(path.endsWith('/') ? path : `${path}/`),
+    sub: tool?.summary,
+  };
+});
+
+const rawUrl = withBase(`/concepts/${entry.id}.md`);
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.summary}>
+  <article data-pagefind-body>
+    <header class="note-header">
+      <div class="meta-row">
+        <span class="chip chip-blue">{entry.data.category}</span>
+        <time datetime={entry.data.updated.toISOString()}>
+          최종 수정 {formatDate(entry.data.updated)}
+        </time>
+        <a class="raw-link" href={rawUrl} title="원본 마크다운 파일 보기">원본 .md</a>
+      </div>
+      <h1 class="note-title">{entry.data.title}</h1>
+      <p class="lede">{entry.data.summary}</p>
+      {
+        entry.data.tags.length > 0 && (
+          <div class="tag-row">
+            {entry.data.tags.map((t) => (
+              <span class="chip">#{t}</span>
+            ))}
+          </div>
+        )
+      }
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+
+  <RelatedLinks tools={relatedTools} concepts={relatedConcepts} />
+</BaseLayout>

@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/site';
+---
+
+<BaseLayout title="관마찰손실 계산기" description="Darcy-Weisbach 식 기반 배관 마찰손실 계산기">
+  <div data-pagefind-body>
+    <header class="page-head">
+      <div class="meta-row" style="margin-bottom: 10px;">
+        <span class="chip chip-blue">계산기</span>
+        <span class="chip">준비 중</span>
+      </div>
+      <h1>관마찰손실 계산기</h1>
+      <p class="lede">Darcy-Weisbach 식 기반 배관 마찰손실(압력손실) 계산</p>
+    </header>
+
+    <div class="placeholder">
+      <p><strong>여기에 기존 계산기 코드가 들어갈 예정입니다.</strong></p>
+      <p>
+        기존 계산기 저장소의 코드를 이 페이지(<code>src/pages/tools/friction-loss.astro</code>)로
+        옮기면 됩니다. 입력 폼 + 계산 스크립트를 이 자리에 그대로 붙여 넣는 구조입니다.
+      </p>
+    </div>
+
+    <aside class="related">
+      <section>
+        <h2>관련 개념</h2>
+        <div class="related-list">
+          <a class="related-pill" href={withBase('/concepts/pipe-friction-loss/')}>
+            관마찰손실
+            <span class="sub">Darcy-Weisbach 식과 Reynolds 수</span>
+          </a>
+        </div>
+      </section>
+    </aside>
+  </div>
+</BaseLayout>

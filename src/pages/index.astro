@@ -1,0 +1,79 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NoteCard from '../components/NoteCard.astro';
+import ToolCard from '../components/ToolCard.astro';
+import SearchBox from '../components/SearchBox.astro';
+import { SITE, withBase, byUpdatedDesc } from '../lib/site';
+import { tools } from '../data/tools';
+
+const recentConcepts = (await getCollection('concepts')).sort(byUpdatedDesc).slice(0, 5);
+const recentProjects = (await getCollection('projects')).sort(byUpdatedDesc).slice(0, 3);
+---
+
+<BaseLayout>
+  <section class="hero">
+    <h1>{SITE.title}</h1>
+    <p>HVAC · 배관 · 펌프 — 개념 노트, 계산기, 프로젝트 기록을 한곳에.</p>
+    <SearchBox />
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>최근 수정된 개념 노트</h2>
+      <a class="more-link" href={withBase('/concepts/')}>전체 보기 →</a>
+    </div>
+    <div class="grid">
+      {
+        recentConcepts.map((e) => (
+          <NoteCard
+            href={withBase(`/concepts/${e.id}/`)}
+            title={e.data.title}
+            summary={e.data.summary}
+            badge={e.data.category}
+            date={e.data.updated}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>계산기 바로가기</h2>
+      <a class="more-link" href={withBase('/tools/')}>전체 보기 →</a>
+    </div>
+    <div class="grid">
+      {
+        tools.map((t) => (
+          <ToolCard
+            href={withBase(`${t.href}/`)}
+            title={t.title}
+            summary={t.summary}
+            status={t.status}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>최근 프로젝트</h2>
+      <a class="more-link" href={withBase('/projects/')}>전체 보기 →</a>
+    </div>
+    <div class="grid">
+      {
+        recentProjects.map((e) => (
+          <NoteCard
+            href={withBase(`/projects/${e.id}/`)}
+            title={e.data.title}
+            summary={e.data.summary}
+            badge={e.data.period}
+            date={e.data.updated}
+          />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,44 @@
+---
+// Pagefind 클라이언트 사이드 검색.
+// 인덱스는 빌드 시 생성되므로(dist/pagefind/) `npm run build` 후
+// `npm run preview` 또는 배포된 사이트에서 동작한다. dev 모드에서는 안내문 표시.
+import { BASE } from '../lib/site';
+---
+
+<div class="search-wrap">
+  <link rel="stylesheet" href={`${BASE}/pagefind/pagefind-ui.css`} />
+  <div id="search" data-base={BASE}></div>
+</div>
+
+<script>
+  const el = document.getElementById('search');
+  const base = el?.dataset.base ?? '';
+
+  const script = document.createElement('script');
+  script.src = `${base}/pagefind/pagefind-ui.js`;
+  script.onload = () => {
+    // PagefindUI는 pagefind-ui.js가 전역으로 등록
+    new (window as any).PagefindUI({
+      element: '#search',
+      showSubResults: true,
+      showImages: false,
+      translations: {
+        placeholder: '개념 · 계산기 · 프로젝트 검색…',
+        clear_search: '지우기',
+        load_more: '결과 더 보기',
+        search_label: '사이트 전체 검색',
+        zero_results: '"[SEARCH_TERM]"에 대한 결과가 없습니다',
+        many_results: '"[SEARCH_TERM]" 검색 결과 [COUNT]건',
+        one_result: '"[SEARCH_TERM]" 검색 결과 [COUNT]건',
+        searching: '검색 중…',
+      },
+    });
+  };
+  script.onerror = () => {
+    if (el) {
+      el.innerHTML =
+        '<p class="search-dev-note">검색 인덱스가 아직 없습니다. 검색은 <code>npm run build</code> 후 <code>npm run preview</code>(또는 배포된 사이트)에서 동작합니다.</p>';
+    }
+  };
+  document.head.appendChild(script);
+</script>

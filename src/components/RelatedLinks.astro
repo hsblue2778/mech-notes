@@ -1,0 +1,47 @@
+---
+interface Item {
+  title: string;
+  href: string;
+  sub?: string;
+}
+
+interface Props {
+  tools?: Item[];
+  concepts?: Item[];
+}
+
+const { tools = [], concepts = [] } = Astro.props;
+---
+
+{
+  (tools.length > 0 || concepts.length > 0) && (
+    <aside class="related" aria-label="관련 링크">
+      {tools.length > 0 && (
+        <section>
+          <h2>관련 계산기</h2>
+          <div class="related-list">
+            {tools.map((t) => (
+              <a class="related-pill" href={t.href}>
+                {t.title}
+                {t.sub && <span class="sub">{t.sub}</span>}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+      {concepts.length > 0 && (
+        <section>
+          <h2>관련 개념</h2>
+          <div class="related-list">
+            {concepts.map((c) => (
+              <a class="related-pill" href={c.href}>
+                {c.title}
+                {c.sub && <span class="sub">{c.sub}</span>}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </aside>
+  )
+}

@@ -1,0 +1,20 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  summary: string;
+  status?: string;
+}
+
+const { href, title, summary, status } = Astro.props;
+---
+
+<a class="card tool-card" href={href}>
+  <div class="note-head">
+    <span class="chip chip-blue">계산기</span>
+    {status && <span class="chip">{status}</span>}
+  </div>
+  <h3>{title}</h3>
+  <p>{summary}</p>
+  <span class="tool-go">바로가기 →</span>
+</a>

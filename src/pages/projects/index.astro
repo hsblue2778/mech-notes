@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoteCard from '../../components/NoteCard.astro';
+import { withBase, byUpdatedDesc } from '../../lib/site';
+
+const entries = (await getCollection('projects')).sort(byUpdatedDesc);
+---
+
+<BaseLayout title="프로젝트" description="프로젝트 및 작업 기록 목록">
+  <header class="page-head">
+    <h1>프로젝트</h1>
+    <p class="lede">어떤 문제를 어떤 방법으로 풀었는지 남기는 작업 기록 — 총 {entries.length}개</p>
+  </header>
+
+  <div class="grid">
+    {
+      entries.map((e) => (
+        <NoteCard
+          href={withBase(`/projects/${e.id}/`)}
+          title={e.data.title}
+          summary={e.data.summary}
+          badge={e.data.period}
+          date={e.data.updated}
+          tags={e.data.tags}
+        />
+      ))
+    }
+  </div>
+</BaseLayout>

@@ -1,0 +1,76 @@
+---
+import '../styles/global.css';
+import 'katex/dist/katex.min.css';
+import { SITE, BASE, withBase } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = SITE.description } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE.title}` : SITE.title;
+
+const nav = [
+  { href: '/', label: '홈' },
+  { href: '/concepts/', label: '개념 노트' },
+  { href: '/tools/', label: '계산기' },
+  { href: '/projects/', label: '프로젝트' },
+];
+
+// 현재 경로(base 제거)로 활성 메뉴 판별
+const path = Astro.url.pathname.startsWith(BASE)
+  ? Astro.url.pathname.slice(BASE.length) || '/'
+  : Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href.replace(/\/$/, ''));
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+    />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href={withBase('/')}>
+          <span class="logo-dot" aria-hidden="true"></span>
+          <span class="brand-text">{SITE.title}</span>
+        </a>
+        <nav class="site-nav" aria-label="주 메뉴">
+          {
+            nav.map((n) => (
+              <a href={withBase(n.href)} class:list={['nav-link', { active: isActive(n.href) }]}>
+                {n.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>{SITE.title} — HVAC · 배관 · 펌프 개인 지식 베이스</p>
+        <p>
+          <a href={withBase('/llms.txt')}>llms.txt</a> · Astro로 만들고 GitHub Pages로 배포
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
